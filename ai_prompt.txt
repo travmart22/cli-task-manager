@@ -1,0 +1,242 @@
+: I want to learn c++. I am intermediate python, beginner/intermediate c#, beginner c++. Please give me a practice project, and then grade it once I am complete. 
+
+GitHub Copilot: I'll create a tracked todo list for the multi-step project (planning + implementation + grading). This will help keep progress visible and follow the agent's workflow. I'll mark the first planning task as in-progress.
+
+Created 7 todos
+
+Progress update — I created the project todo list and set the planning task to in-progress. Next I'll lay out the full project brief, contract, milestones, grading rubric, example file layout, and quick-start compile/run instructions. After that you can tell me if you want me to scaffold the repo files for you (I can create them here) or if you prefer to implement them yourself and submit for grading later.
+
+## Practice project — CLI Task Manager (C++)
+A compact, practical CLI task manager you build in C++ to practice core language features, standard library, and simple I/O/persistence.
+
+High-level goal
+- Build a command-line application to manage tasks (TODOs) with add/list/edit/complete/delete/search features, persisted to disk. Focus on idiomatic modern C++ (C++17 or later), good code organization, and unit tests.
+
+Contract (2–4 bullets)
+- Inputs: user text commands via CLI and a persistent tasks file (e.g., `tasks.json` or `tasks.csv`).
+- Outputs: printed lists to stdout, updated file on disk, program exit status (0 on success).
+- Data shape: A Task { id: int, title: string, description: optional string, tags: vector<string>, due: optional date/time, completed: bool }.
+- Error modes: invalid command syntax (print usage), file I/O errors (print message and nonzero exit if fatal), malformed data file (fail gracefully with option to reset).
+
+Core features (minimum viable)
+- Add task: title (required), description (optional), tags (optional), due date (optional).
+- List tasks: show id, title, due date, completed status, tags.
+- Complete/uncomplete task by id.
+- Delete task by id.
+- Edit task fields by id.
+- Search tasks (by substring in title/description or by tag).
+- Persist tasks to disk on each change (simple JSON or CSV).
+- CLI help and a small interactive mode (REPL) or flags for single-command execution.
+
+Stretch features (optional)
+- Sorting by due date or creation date.
+- Recurring tasks (simple).
+- Import/export.
+- Colored terminal output (ANSI) and nice table formatting.
+- Use `std::chrono` for due dates and basic parsing.
+
+Suggested language, tools, and standards
+- C++17 (or C++20 if you prefer).
+- Build: single-file g++ command or simple CMake with targets.
+- Unit tests: Catch2 single-header or a tiny homemade test harness.
+- No external heavy dependencies required; keep it minimal to maximize learning.
+
+Project milestones (small iterations)
+1. Design data model and in-memory TaskManager (add/list/complete/delete).
+2. Create CLI loop and basic commands (interactive REPL).
+3. Add persistence (save/load file).
+4. Add search and edit commands.
+5. Add unit tests for TaskManager logic.
+6. Polish docs, add examples and usage.
+
+Edge cases to handle
+- Empty title on add (reject).
+- Non-existent id operations (show error).
+- Simultaneous file write/read (single process okay).
+- Corrupted persistence file (detect and offer reset).
+- Large number of tasks (ensure listing remains responsive).
+
+Quality gates (what I'll check when grading)
+- Build: compiles with no errors (prefer -Wall -Wextra). PASS/FAIL.
+- Tests: unit tests for core logic exist and pass. PASS/FAIL.
+- Functionality: All required features implemented and work as expected. PASS/FAIL.
+- Code quality: idiomatic modern C++, no obvious memory/safety issues (RAII), readable, small functions. PASS/FAIL.
+- UX/docs: `README.md` with build and run instructions, example commands. PASS/FAIL.
+
+Grading rubric (100 points)
+- Functionality (40)
+  - Add/List/Complete/Delete/Edit/Search implemented: 25
+  - Persistence (save/load) implemented and robust: 10
+  - Correct handling of invalid input: 5
+- Code quality & idiomatic C++ (20)
+  - Proper use of RAII, std containers, no raw owning pointers, clear structure: 10
+  - Good naming, modularization, small functions: 5
+  - Appropriate use of C++ features (move semantics, optional, chrono): 5
+- Tests (15)
+  - Unit tests covering core behaviors and edge cases: 10
+  - Tests are automated and documented: 5
+- Build & docs (15)
+  - Clear build instructions and reproducible build: 8
+  - README with usage examples: 7
+- Extra credit (10)
+  - Nice CLI UX (colors, formatted tables): up to 3
+  - Sorting, filters, or import/export: up to 4
+  - CI or packaging: up to 3
+
+Acceptable submission formats
+- A git repo (preferred) or a zip file containing the source.
+- Include instructions: how to build, run tests, and run the app.
+- If you want me to grade, share the repo link or upload the files here (I can read repo files in this environment and run the graders).
+
+Minimal file layout suggestion
+- README.md — project description and build/run instructions
+- CMakeLists.txt or Makefile (optional)
+- src/main.cpp — CLI entry point
+- src/task.cpp — Task and TaskManager implementations
+- include/task.h — Task and TaskManager declarations
+- tests/test_taskmanager.cpp — unit tests
+- data/tasks.json — sample data (not required)
+
+Quick compile/run (simple single-file example)
+If you implement without CMake and keep everything in one or two .cpp files, compile with:
+```bash
+g++ -std=c++17 -Wall -Wextra -O2 src/main.cpp src/task.cpp -o bin/taskmgr
+./bin/taskmgr
+```
+If you use CMake, standard configure/build:
+```bash
+mkdir -p build
+cd build
+cmake ..
+cmake --build . --config Release
+./taskmgr
+```
+
+Helpful C++ features / libs to practice
+- std::vector, std::string, std::optional, std::map/unordered_map
+- std::filesystem for path and file operations
+- std::chrono for dates/times
+- JSON: either implement a tiny ad-hoc serializer or optionally use single-header nlohmann/json if you want external dependency
+- Smart pointers where needed, but prefer value semantics for small models
+- Move semantics for performance
+
+How submission & grading will work (when you're ready)
+- You submit the code (upload or repo).
+- I'll run build and tests and check the quality gates.
+- I'll produce a graded report with numeric scores following the rubric, include comments inline on files (or in a single review), and suggest improvements and next steps.
+
+Next steps (pick one)
+- A: I scaffold the project files and a tiny starter implementation so you can begin (I can create the repo layout and minimal main.cpp + build files). — I can do that now.
+- B: You implement on your own and tell me when ready for grading. When ready, upload or share the files and I'll grade them.
+- C: You want a smaller/simpler project or a different focus (GUI, networking, or algorithms). Tell me which.
+
+Would you like me to scaffold the project files now (option A)? If yes, I will create the minimal project layout and a starter implementation for the Task model and TaskManager to get you going.
+
+: Option B for now. Thank you!
+
+GitHub Copilot: I'm going to mark the planning task as completed in the tracked todo list so we have up-to-date status; outcome: todo #1 becomes completed.
+
+Completed (1/7) *Define project and acceptance criteria*
+
+Progress update — planning task marked completed. Next steps and how to submit when you're ready:
+
+What I expect from your submission (checklist before asking for grading)
+- Build
+  - Project compiles without errors on Linux with g++ (C++17+). Prefer -Wall -Wextra.
+- Functionality
+  - Implement required commands: `add`, `list`, `complete`/`uncomplete`, `delete`, `edit`, `search`.
+  - Persistence: tasks saved to and loaded from a file (e.g., `data/tasks.json`).
+  - CLI help (`--help`) or simple usage printed.
+- Tests
+  - Unit tests for core logic (TaskManager) covering happy path + 1–2 edge cases.
+  - Tests are runnable locally with documented commands.
+- Docs & packaging
+  - `README.md` with build and run instructions, examples, and where the data file is.
+  - Include any sample data in `data/` or explain how to create it.
+- Submission format
+  - Preferred: Git repo (provide URL + branch). Alternate: zip of the project root.
+
+Quick build & run examples to include in your README
+- Simple g++ build (for small projects):
+```bash
+g++ -std=c++17 -Wall -Wextra -O2 src/main.cpp src/task.cpp -o bin/taskmgr
+./bin/taskmgr
+```
+- CMake (if you include `CMakeLists.txt`):
+```bash
+mkdir -p build
+cd build
+cmake ..
+cmake --build . --config Release
+./taskmgr
+```
+- Run tests (example if using Catch2 single-header):
+```bash
+./build/tests/test_taskmanager
+```
+
+How to hand it to me for grading
+- Push to a public (or accessible) Git repo and paste the URL here, or upload a zip of the project folder.
+- Tell me:
+  - Branch/commit to grade (or include the zip filename).
+  - Any special steps to run (e.g., requires environment variable, third-party header).
+- I will:
+  - Pull or extract it, build, run the test suite, and exercise the CLI for main flows.
+  - Score using the rubric I already provided and give an itemized report with suggestions and possible code snippets for improvements.
+
+If you want, I can grade an intermediate state (e.g., after milestone 2 or persistence) — just tell me which milestone to evaluate.
+
+Anything else before you start coding? If not, implement at your own pace and ping me with the repo/zip when you want the grading pass.
+
+: How will you remember this context? I definitely am not going to be able to finish this
+
+GitHub Copilot: I’ll explain how context works here, show practical ways to preserve your work, and give three clear options so you can pick how to proceed.
+
+How I remember things
+- During this chat/session I keep the conversation context and the todo list we created. I can refer back to it and act on it while we’re still talking.
+- I don’t have long-term persistent memory between separate sessions. If you close this chat or come back later, I won’t automatically remember the repo/files unless you re-share them (or the platform restores the workspace/chat state).
+- Practically: treat this session as a live pairing session. To be able to resume later, save your project somewhere I can access (or upload it when you return).
+
+Simple ways to preserve and resume your work
+1) Use Git + GitHub (recommended)
+- Initialize, commit, and push to a repo so you can return anytime and I (or anyone) can pull it to continue.
+- Commands:
+```bash
+cd "/home/travism/Documents/Projects/CLI Task Manager"
+git init
+git add .
+git commit -m "WIP: CLI Task Manager - initial"
+# create a GitHub repo and add it as remote, or use an existing remote
+git remote add origin git@github.com:yourusername/cli-task-manager.git
+git push -u origin main
+```
+- Then paste the repo URL here when you want me to pick up or grade.
+
+2) Zip and upload
+- If you prefer not to use remote VCS, create a zip and save or upload it:
+```bash
+cd "/home/travism/Documents/Projects"
+zip -r "cli-task-manager.zip" "CLI Task Manager"
+```
+- Upload the zip here when you’re ready for me to grade or continue.
+
+3) Save a small state file (quick checkpoint)
+- Create a `TODO.md` or `PROGRESS.md` with the todo list and current status, so you have a human-readable checkpoint:
+```text
+# PROGRESS
+- Milestone 1: done
+- Milestone 2: in progress
+- Notes: stopped at CLI loop
+```
+- That file can be committed or uploaded.
+
+What I can do now if you don’t want to finish it yourself
+- Option A — I scaffold everything now (complete repo, minimal working implementation, build + tests). You can stop and come back later. I’ll create the files and verify build/tests here.
+- Option B — I implement core features (Task model, TaskManager, persistence) and tests so you only need to tweak UX or add extras later.
+- Option C — I leave you with a very detailed step-by-step mini plan and code snippets for each step so you can pick up at your pace.
+
+Which would you like?
+- If you want me to scaffold or implement (A or B), tell me which option and I’ll create the files and run a quick build/test verify in this session.
+- If you prefer to save and come back later, tell me whether you want GitHub or zip instructions and I’ll give any extra helper commands (like creating a remote repo or a README template).
+
+Quick recommendation: push a commit to a GitHub repo now (even a private one). It’s the simplest way to preserve progress and hand it to me for grading or continuation later.
